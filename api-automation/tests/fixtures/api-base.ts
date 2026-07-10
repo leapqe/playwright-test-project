@@ -1,19 +1,20 @@
 import { test as base } from '@playwright/test';
 import { ActivitiesController } from '@controllers/fakerestapi/activities-controller';
-import { UserApiController } from '@controllers/crudcrud/crudcrud-users-controller';
+import { UsersController } from '@controllers/crudcrudapi/users-controller';
+
 
 type ApiFixtures = {
   activitiesApi: ActivitiesController;
-  userApi: UserApiController
+  usersApi: UsersController;
 };
 
 export const apiTest = base.extend<ApiFixtures>({
   activitiesApi: async ({ request }, use) => {
     await use(new ActivitiesController(request));
   },
-  userApi: async ({ request }, use) => {
-    await use(new UserApiController(request));
-  },
+  usersApi: async ({ request }, use) => {
+    await use(new UsersController(request));
+  }
 });
 
 export const expect = base.expect;

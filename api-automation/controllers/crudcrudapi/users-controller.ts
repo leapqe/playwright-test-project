@@ -1,19 +1,13 @@
 import { type APIRequestContext, type APIResponse } from '@playwright/test';
 
-/**
- * Controller for the FakeRESTApi /api/v1/Activities resource.
- * https://fakerestapi.azurewebsites.net/index.html
- *
- * Activity schema:
- *   { id: number; title: string | null; dueDate: string (ISO date-time); completed: boolean }
- */
+
 export type User = {
   firstName: string;
   lastName: string;
   isDeleted: boolean;
 };
 
-export class UserApiController {
+export class UsersController {
   readonly request: APIRequestContext;
   readonly baseUrl: string;
 
@@ -27,5 +21,7 @@ export class UserApiController {
   async postCreateUser(data: User): Promise<APIResponse> {
     return this.request.post(`${this.baseUrl}/users`, {data});
   }
+
+  
 
 }

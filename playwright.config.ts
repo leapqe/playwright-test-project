@@ -33,7 +33,8 @@ export default defineConfig({
     },
     {
       name: 'api',
-      testDir: './api-automation/tests/fakerestapi/scenarios',
+      testDir: './api-automation/tests',
+      testMatch: '**/scenarios/**/*.spec.ts',
       fullyParallel: true,
       timeout: 60 * 1000, // 1 min per test
       retries: process.env.CI ? 1 : 0,
