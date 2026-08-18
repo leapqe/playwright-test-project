@@ -3,32 +3,24 @@ import { faker } from '@faker-js/faker/locale/en';
 
 test.describe('Demoblaze - Log in', () => {
     
-    let user: { username: string; password: string };
+    
 
     test.beforeEach(async ({ homePage, signUpModal, logInModal }) => {
         await homePage.goto();
         await homePage.openSignUpModal();
-        await expect(signUpModal.modal).toBeVisible();
-        user = {
-            username: faker.internet.username(),
-            password: faker.internet.password({ length: 12, memorable: true, pattern: /[A-Za-z0-9]/ }),
-        };
-
-        await signUpModal.fillForm(user.username, user.password);
-        const alertText = await signUpModal.submitAndCaptureAlert();
-
-        expect(alertText).toBe('Sign up successful.');
-        await homePage.goto();
-        await homePage.openLogInModal();
         await expect(logInModal.modal).toBeVisible();
+       
     });
 
-    test('user can log in with valid credentials', async ({ homePage, logInModal }) => {
-        await logInModal.fillForm(user.username, user.password);
-        await logInModal.submit();
+    test('loggin in with a non-existant user is rejected ', async ({ homePage, logInModal }) => {
+        const username = faker.internet.username();
+        const password = faker.internet.password( {length: 12, memorable: true, pattern: /[A-Za-z0-0]/ });
 
-        await expect(homePage.welcomeMessage).toHaveText(`Welcome ${user.username}`);
-        await expect(homePage.logInNavLink).toBeVisible();
+        await logInModal.fillForm( username, password);
+        const alertText = await logInModal.submitAndCaptureAlert();
+
+        await expect(alertText).toBe('User does not exit.');
+        await expect(homePage.logOutNavLink).toBeVisible();
         
     });
 
